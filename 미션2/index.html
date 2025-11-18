@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./reset.css" />
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 10px;
+      }
+      p {
+        font-size: 14px;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      span {
+        font-size: 12px;
+      }
+
+      .container {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .buttons {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+      }
+      .buttons > button:not(:last-child) {
+        margin-right: 10px;
+      }
+      ul {
+        margin-top: 10px;
+        width: 100%;
+        padding: 20px;
+        background-color: lightgray;
+        display: grid;
+        grid: auto-flow / repeat(3, 1fr);
+        grid-gap: 10px;
+        text-align: center;
+      }
+      ul > li {
+        padding: 20px;
+        background-color: white;
+        border-radius: 10px;
+      }
+      ul > li:last-child {
+        grid-column: 2;
+      }
+    </style>
+    <title>Document</title>
+  </head>
+  <body>
+	  <!-- HTML 은 수정하지 않습니다. -->
+    <div class="container">
+      <h1>간단한 계산기</h1>
+      <p>
+        숫자를 2개 선택하고, 연산자를 선택하면<br />결과값이 alert으로
+        출력됩니다.
+      </p>
+
+			<!-- 여기에 처음 선택한 숫자가 "First Number: 1" 형식의 텍스트로 보입니다.  -->
+      <span class="firstNumber"></span> 
+      <!-- 여기에 두번째 선택한 숫자가 "Second Number: 2" 형식의 텍스트로 보입니다.  -->
+      <span class="secondNumber"></span>
+      <!-- 여기에 연산이 된 결과값이 "Result: 1 + 2 = 3" 형식의 텍스트로 보입니다.  -->
+      <span class="result"></span>
+
+      <ul></ul>
+
+      <div class="buttons"></div>
+    </div>
+
+    <script>
+	    // 숫자 초기화용 값입니다. 초기화 시킬 때 이 친구를 사용해 주세요.
+      const NUMBER_INITIAL_VALUE = -1;
+      let firstNumber = NUMBER_INITIAL_VALUE;
+      let secondNumber = NUMBER_INITIAL_VALUE;
+
+      const firstNumberSpan = document.querySelector(".firstNumber");
+      const secondNumberSpan = document.querySelector(".secondNumber");
+      const resultSpan = document.querySelector(".result");
+      
+      //number 배열
+      const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+      // 위 numbers 배열을 활용하여 ul 태그에 순서대로 숫자를 화면에 보여주세요.
+      // li 태그 생김새 : <li><button>1</button></li>
+
+      // ul 요소 선택
+      const numberList = document.querySelector("ul");
+      // forEach문 활용
+      // numbers 배열을 순회
+      numbers.forEach(number => {
+        // li, button 요소 생성
+        const li = document.createElement("li");
+        // button 요소 생성
+        const button = document.createElement("button");
+        button.textContent = number;
+        // button을 li에 추가
+        li.appendChild(button);
+        // li를 ul에 추가
+        numberList.appendChild(li);
+      })
+
+      // 연산자 배열
+      const operators = ["+", "-", "*", "/"];
+      // 위 operators 배열을 활용하여 div.buttons 안에 <button>+</button>형태로
+      // 연산자들을 순서대로 화면에 보여주세요
+      // div.buttons 요소 선택
+      const buttonsDiv = document.querySelector(".buttons");
+      // forEach문 활용
+      // operators 배열을 순회
+      operators.forEach(operator => {
+        // button 요소 생성
+        const button = document.createElement("button");
+        // button에 연산자 텍스트 추가
+        button.textContent = operator;
+        // button을 div.buttons에 추가
+        buttonsDiv.appendChild(button);
+      })
+
+      // 숫자 버튼 클릭 이벤트
+      // ul 요소에 이벤트 위임
+      numberList.addEventListener("click", (event) => {
+        // 클릭한 요소가 button인지 확인
+        if (event.target.tagName === "BUTTON") {
+          // 클릭한 숫자 가져오기
+          const selectedNumber = Number(event.target.textContent);
+          // 이전 계산값 지우기
+          resultSpan.textContent = "";
+          
+          if (firstNumber === NUMBER_INITIAL_VALUE) {
+            // firstNumber에 값 할당
+            firstNumber = selectedNumber;
+            // 화면에 firstNumber 표시
+            firstNumberSpan.textContent = `First Number: ${firstNumber}`;
+          } else if (secondNumber === NUMBER_INITIAL_VALUE) {
+            // secondNumber에 값 할당
+            secondNumber = selectedNumber;
+            // 화면에 secondNumber 표시
+            secondNumberSpan.textContent = `Second Number: ${secondNumber}`;
+          }
+        }
+      });
+
+      // 연산자 버튼 클릭 이벤트
+      // div.buttons에 이벤트 위임
+      buttonsDiv.addEventListener("click", (event) => {
+        // 클릭한 요소가 button인지 확인
+        if (event.target.tagName === "BUTTON") {
+          // firstNumber와 secondNumber가 모두 선택되었는지 확인
+          if (firstNumber === NUMBER_INITIAL_VALUE || secondNumber === NUMBER_INITIAL_VALUE) {
+            alert("숫자를 먼저 선택해주세요");
+            return;
+          }
+          // 클릭한 연산자 가져오기
+          const operator = event.target.textContent;
+          let result;
+          // 연산자에 따라 계산 수행
+          switch (operator) {
+            case "+":
+              result = firstNumber + secondNumber;
+              break;
+            case "-":
+              result = firstNumber - secondNumber;
+              break;
+            case "*":
+              result = firstNumber * secondNumber;
+              break;
+            case "/":
+              // 나눗셈 후 반올림
+              result = Math.round(firstNumber / secondNumber);
+              break;
+          }
+
+          // 화면에 결과값 표시 숫자 버튼 클릭 시 초기화 
+          resultSpan.textContent = `Result: ${firstNumber} ${operator} ${secondNumber} = ${result}`;
+
+
+          //초기화
+          firstNumber = NUMBER_INITIAL_VALUE; 
+          secondNumber = NUMBER_INITIAL_VALUE;
+          firstNumberSpan.textContent = "";
+          secondNumberSpan.textContent = "";
+
+        }
+      });
+    </script>
+  </body>
+</html>

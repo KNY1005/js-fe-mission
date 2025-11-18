@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <title>Document</title>
+  </head>
+  <script>
+    // 버튼 클릭 시 로딩 애니메이션이 실행되고 3초 후에 멈추도록 하는 코드
+    document.addEventListener("DOMContentLoaded", function () {
+      // 버튼 요소 선택
+      const button = document.querySelector(".btn");
+      // 로더 요소 선택 
+      const loader = button.querySelector(".loader");
+
+      button.addEventListener("click", function () {
+        // 버튼에 loading 클래스 추가
+        button.classList.add("loading");
+        // 로더 표시
+        loader.style.display = "inline-block";
+
+        // 3초 후에 로딩 애니메이션 멈춤
+        setTimeout(function () {
+          button.classList.remove("loading");
+          // 로더 숨기기
+          loader.style.display = "none";
+        }, 3000);
+      });
+    });
+  </script>
+  <body>
+    <button class="btn">
+      <span class="text">WELCOME!</span>
+      <span class="loader"></span>
+    </button>
+  </body>
+</html>
