@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../미션/reset.css" />
+    <title>Document</title>
+    <style>
+      * {
+        font-family: "Courier New", Courier, monospace;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 40px;
+        font-weight: 700;
+        margin-bottom: 20px;
+      }
+      .cart {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background-color: lightyellow;
+        height: 100vh;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+        width: 1000px;
+      }
+      li {
+        list-style: none;
+        margin-bottom: 10px;
+        font-weight: 500;
+        font-size: 18px;
+      }
+      a {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="cart">
+      <h1>Cart</h1>
+      <ul class="addCartResult"></ul>
+      <a href="./index.html">back</a>
+    </main>
+
+    <script>
+      //장바구니 내역 출력할 위치 찾기
+      const ul = document.querySelector('.addCartResult');
+
+      //장바구니 내역 배열에 담아서 출력하기
+      //실패했을 경우 cart 파싱 실패 콘솔로 출력
+      function loadCart() {
+        try {
+          return JSON.parse(localStorage.getItem('cart') || '[]');
+        } catch (e) {
+          console.error('cart 파싱 실패', e);
+          return [];
+        }
+      }
+
+      //로컬 스테이지로 장바구니 내역 전달
+      function saveCart(cart) {
+        localStorage.setItem('cart', JSON.stringify(cart));
+      }
+
+
+      //화면에 가격 출력
+      function formatPrice(v) {
+        return String(v).replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '원';
+      }
+      
+      //장바구니 비우기
+      function renderCart() {
+        const cart = loadCart();
+        ul.innerHTML = '';
+        
+        //li리스트를 생성하고 장바구니 항복을 출력
+        const header = document.createElement('li');
+        // header.style.fontWeight = '1000';
+        header.textContent = `총 ${cart.length}개 항목`; 
+        ul.appendChild(header);
+
+        //카트의 배열 길이가 0일 경우 장바구니 비어있습니다 출력
+        if (cart.length === 0) {ㄹ
+          const empty = document.createElement('li');
+          empty.textContent = '장바구니가 비어 있습니다.';
+          ul.appendChild(empty);
+          return;
+        }
+        
+        //
+        let total = 0;
+        cart.forEach((it, idx) => {
+          const li = document.createElement('li');
+          const name = it.productName || it.title || '상품';
+          const price = Number(it.productPrice ?? it.price ?? 0);
+          const count = Number(it.count ?? 1);
+          total += price * count;
+
+          //장바구니 리스트 HTML 출력 코드
+          li.innerHTML = `
+            <div style="display:flex;gap:12px;align-items:center;justify-content:center;">
+              <div style="min-width:220px;text-align:left;">${idx+1}. ${name}</div>
+              <div style="width:120px">${formatPrice(price)}</div>
+              <div>수량: <input class="qty" data-id="${it.id}" type="number" value="${count}" min="1" style="width:60px"></div>
+              <div style="width:200px">합계: ${formatPrice(price*count)}</div>
+              <button class="remove" data-id="${it.id}">삭제</button>
+            </div>
+          `;
+
+          ul.appendChild(li);
+        });
+
+        //li 리스트 생성, style까지
+        const totalLi = document.createElement('li');
+
+        totalLi.style.marginTop = '16px';
+        totalLi.style.fontWeight = '700';
+        //총 결제금액 출력
+        totalLi.textContent = `총 결제금액: ${formatPrice(total)}`;
+        ul.appendChild(totalLi);
+
+        const clearLi = document.createElement('li');
+        clearLi.style.marginTop = '8px';
+        clearLi.innerHTML = `<button id="clearCart">장바구니 비우기</button>`;
+        ul.appendChild(clearLi);
+            }
+            
+        // 이벤트 위임: 삭제, 수량변경, 비우기 처리
+        document.addEventListener('click', (e) => {
+        const rm = e.target.closest('.remove');
+        if (rm) {
+          const id = String(rm.dataset.id);
+          let cart = loadCart();
+          cart = cart.filter(i => String(i.id) !== id);
+          saveCart(cart);
+          renderCart();
+          return;
+        }
+
+        //index.html에 있는 .clearCart 버튼
+        const clearBtn = e.target.closest('.clearCart');
+        if (clearBtn) {
+          const cart = loadCart();
+          if (!cart || cart.length === 0) {
+            alert('장바구니가 비어 있습니다.');
+            return;
+          }
+
+          if (confirm('장바구니를 비우시겠습니까?')) {
+            saveCart([]);
+            renderCart();
+          } else {
+            alert('취소되었습니다');
+          }
+        }
+            });
+
+
+      // 초기 렌더
+      renderCart();
+    </script>
+  </body>
+</html>
