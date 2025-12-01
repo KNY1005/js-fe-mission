@@ -12,7 +12,7 @@
 
 ### 미션3
 
-<img width="80%" src="https://github.com/user-attachments/assets/8580f6fc-ab09-4cc5-8d0a-68593cd2ed5b"/>
+<img width="80%" src="https://github.com/user-attachments/assets/b26a2693-893b-4d7b-b2c9-10c7c4b1d3ff"/>
 
 ### 미션4
 
