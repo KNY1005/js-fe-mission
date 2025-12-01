@@ -12,6 +12,7 @@
 
 ### 미션3
 
+<<<<<<< HEAD
 <img width="80%" src="https://github.com/user-attachments/assets/033fcfb4-61b2-40e7-9810-426d0d89cb43"/>
 
 <br>
