@@ -12,11 +12,9 @@
 
 ### 미션3
 
-<<<<<<< HEAD
-<img width="80%" src="https://github.com/user-attachments/assets/033fcfb4-61b2-40e7-9810-426d0d89cb43"/>
-
-<br>
+<img width="80%" src="https://github.com/user-attachments/assets/af4768a1-2ffe-419c-92ed-ce20bfb20e90"/>
 
 ### 미션4
 
-<img width="80%" src=""/>
+<img width="80%" src="https://github.com/user-attachments/assets/8cf37932-b512-4156-ac4d-7a007799e321"/>
+
