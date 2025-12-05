@@ -3,18 +3,18 @@
     "id": 0,
     "productName": "만두 포토카드",
     "productPrice": 10000,
-    "productImgFileName": "../미션/imgs/001.png"
+    "productImgFileName": "../imgs/001.png"
   },
   {
     "id": 1,
     "productName": "만두 손거울",
     "productPrice": 5000,
-    "productImgFileName": "../미션/imgs/002.png"
+    "productImgFileName": "../imgs/002.png"
   },
   {
     "id": 2,
     "productName": "만두 티셔츠",
     "productPrice": 15000,
-    "productImgFileName": "../미션/imgs/003.png"
+    "productImgFileName": "../imgs/003.png"
   }
 ]
